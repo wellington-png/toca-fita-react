@@ -5,7 +5,6 @@ import { Outlet } from "react-router-dom";
 
 import Header from "../../components/Header";
 import Playbar from "../../components/Playbar";
-import SideBar from "../../components/SideBar";
 
 const ContainerWrapper = styled.div`
     display: grid;
@@ -42,7 +41,6 @@ export default function Default() {
         <ContainerWrapper>
             <Header />
             <Outlet />
-            <SideBar />
             <Playbar />
         </ContainerWrapper>
     );

@@ -1,6 +1,52 @@
 import { styled } from "styled-components";
 
 
+const AlbumDetailsWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 30px;
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 30px;
+
+    .wiki {
+        width: 100%;
+        margin-bottom: 30px;
+
+        h2 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 14px;
+            font-weight: 500;
+        }
+    }
+
+    .data_public {
+        width: 100%;
+        margin-bottom: 30px;
+
+        h2 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 14px;
+            font-weight: 500;
+        }
+    }
+`
+
 const Banner = styled.div`
     background: rgba(235, 213, 100, 0.94);
     border-radius: 6px;
@@ -68,8 +114,6 @@ const Banner = styled.div`
         .buttons {
             display: flex;
             width: 100%;
-            align-items: center;
-
 
             button {
                 background: #fff;
@@ -95,4 +139,4 @@ const Banner = styled.div`
     
 `;
 
-export default Banner;
+export { AlbumDetailsWrapper, Banner };

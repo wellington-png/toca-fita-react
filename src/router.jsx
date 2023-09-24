@@ -8,7 +8,10 @@ import SearchContext from './context/searchContext';
 
 
 export default function Router() {
-  const [search, setSearch] = useState('racionais');
+  const [search, setSearch] = useState(
+    localStorage.getItem('search') || ''
+  );
+
   return (
     <SearchContext.Provider value={ { search, setSearch } }>
     <BrowserRouter>
