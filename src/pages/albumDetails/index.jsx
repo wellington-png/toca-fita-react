@@ -2,11 +2,13 @@ import { useEffect, useState } from "react";
 
 import { GrPlayFill } from 'react-icons/gr';
 import SideBar from "../../components/SideBar";
+import CardListBar from "../../components/CardListBar";
 
 import { AlbumDetailsWrapper, Banner } from "./styles";
 
 import Container from "../../components/Container";
 import Spinner from "../../components/Spinner";
+import Card from "../../components/Card";
 
 import api from "../../services/api";
 import { Link } from "react-router-dom";
@@ -16,8 +18,8 @@ function AlbumDetails() {
     const [loading, setLoading] = useState(true);
     const [album, setAlbumDetails] = useState([]);
     const [musicAlbum, setMusicAlbum] = useState([]);
+    const [albumSimilares, setAlbumSimilares] = useState([]);
 
-    // get query params
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
 
@@ -36,7 +38,6 @@ function AlbumDetails() {
                 });
                 setAlbumDetails(data.album);
                 const traks = data.album.tracks.track
-                // url_image = item.image[2]["#text"]
                 const musicAlbum = traks.map((track, index) => {
                     return {
                         key: index,
@@ -46,14 +47,30 @@ function AlbumDetails() {
                     }
                 })
                 setMusicAlbum(musicAlbum);
-                setLoading(false);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        async function getAlbumSimilares() {
+            try {
+                const { data } = await api.get(``, {
+                    params: {
+                        method: 'artist.getSimilar',
+                        artist,
+                        limit: 5,
+                    }
+                });
+                setAlbumSimilares(data.similarartists.artist);
+                console.log(data.similarartists);
+
             } catch (error) {
                 console.log(error);
             }
         }
         getAlbumDetails();
-
-
+        getAlbumSimilares();
+        setLoading(false);
     }, [artist, albumName]);
 
 
@@ -91,14 +108,23 @@ function AlbumDetails() {
 
                     <div className="wiki">
                         <h2>Biografia</h2>
-                        <p dangerouslySetInnerHTML={{ __html: album.wiki && album.wiki.content }}></p>
+                        <p dangerouslySetInnerHTML={{ __html: album.wiki && album.wiki.content !== '' ? album.wiki.content : 'Sem informações' }} />
                     </div>
                     <div className="data_public">
                         <h2>Data de lançamento</h2>
-                        <p>{album.wiki && album.wiki.published}</p>
+                        <p>{album.wiki && album.wiki.published !== '' ? album.wiki.published : 'Sem informações'}</p>
                     </div>
 
                 </AlbumDetailsWrapper>
+                <CardListBar title='Albums similares'>
+                    {albumSimilares && albumSimilares.map((item, index) => (
+                        <Card
+                            key={index}
+                            url_photo={item.image[2]['#text']}
+                            title={item.name}
+                        />
+                    ))}
+                </CardListBar>
             </Container>
         </>
     );
